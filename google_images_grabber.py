@@ -17,10 +17,10 @@ def grab_images():
     driver = webdriver.Chrome(options=chrome_opts)
     google_images = "https://www.google.com/imghp?hl=en&ogbl"
     driver.get(google_images)
-    max_images = 250
+    max_images = 300
     search_arg = input(fg_prompt + "What do you want to search?\n" + fg_reset)
     num_imgs = int(input(fg_prompt + "How many images do you want to grab? \nNote: " + str(max_images) + " max, Google will block you if you send too many requests!\n" + fg_reset))
-    if num_imgs > max_images:
+    if num_imgs > max_images: 
         print(fg_error + "I will not do more than " + str(max_images) + "! " + "\n")
     search_box = driver.find_element_by_class_name("gLFyf")
     search_box.send_keys(search_arg + "\n")
@@ -30,7 +30,7 @@ def grab_images():
         print(fg_page + "Scrolling..." + fg_reset)
         #currLen = len(images)
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        time.sleep(0.5)
+        time.sleep(1)
         images = driver.find_elements_by_class_name("bRMDJf")
         if len(images) >= num_imgs:
             break
@@ -52,10 +52,13 @@ def grab_images():
     for i in range(num_imgs):
         j += 1
         img_src = images[i].find_element_by_tag_name("img").get_attribute("src")
-        file_name =  search_arg + "-" + str(j+1) + ".jpg"
+        file_name =  search_arg + "-" + str(j) + ".jpg"
         try:
             urllib.request.urlretrieve(img_src, file_name)
             print(fg_prompt + "Saving " + file_name + fg_reset)
         except TypeError:
             print(fg_error + "Couldn't process a link, skipping..." + fg_reset)   
             j -= 1 # keep track of actual file number
+        except:
+            print(fg_error + "Google timed you out! Resuming..." + fg_reset)
+    print()
