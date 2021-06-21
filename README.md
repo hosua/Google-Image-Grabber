@@ -5,4 +5,4 @@ If you wish to use this, you will need to have the Selenium and Colorama package
 
 If you wish to use another browser, you will need to modify the code to work with it.
 
-
+![0](https://i.imgur.com/VQuGUYq.png)
